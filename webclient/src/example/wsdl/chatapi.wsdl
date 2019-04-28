@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.baeldung.com/springsoap/gen" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.baeldung.com/springsoap/gen" targetNamespace="http://www.baeldung.com/springsoap/gen">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.baeldung.com/springsoap/gen">
+
+    <xs:element name="loginRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="firstName" type="xs:string"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="lastName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="loginResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="logoutRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="logoutResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getLastMessagesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="count" type="xs:int"/>
+                <xs:element name="after" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="getLastMessagesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="message">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="timestamp" type="xs:long"/>
+                            <xs:element name="userName" type="xs:string"/>
+                            <xs:element name="data" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sendMessageRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sendMessageResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseCode" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getLastMessagesRequest">
+    <wsdl:part element="tns:getLastMessagesRequest" name="getLastMessagesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendMessageResponse">
+    <wsdl:part element="tns:sendMessageResponse" name="sendMessageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendMessageRequest">
+    <wsdl:part element="tns:sendMessageRequest" name="sendMessageRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginRequest">
+    <wsdl:part element="tns:loginRequest" name="loginRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLastMessagesResponse">
+    <wsdl:part element="tns:getLastMessagesResponse" name="getLastMessagesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logoutRequest">
+    <wsdl:part element="tns:logoutRequest" name="logoutRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="tns:loginResponse" name="loginResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logoutResponse">
+    <wsdl:part element="tns:logoutResponse" name="logoutResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ChatPort">
+    <wsdl:operation name="getLastMessages">
+      <wsdl:input message="tns:getLastMessagesRequest" name="getLastMessagesRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getLastMessagesResponse" name="getLastMessagesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendMessage">
+      <wsdl:input message="tns:sendMessageRequest" name="sendMessageRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:sendMessageResponse" name="sendMessageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdl:input message="tns:loginRequest" name="loginRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:loginResponse" name="loginResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <wsdl:input message="tns:logoutRequest" name="logoutRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:logoutResponse" name="logoutResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ChatPortSoap11" type="tns:ChatPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getLastMessages">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getLastMessagesRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLastMessagesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendMessage">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="sendMessageRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendMessageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="loginRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="logoutRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="logoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ChatPortService">
+    <wsdl:port binding="tns:ChatPortSoap11" name="ChatPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
